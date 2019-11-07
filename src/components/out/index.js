@@ -1,18 +1,26 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-export const Out = async () => {
-  const [response, setResponse] = useState();
+export const Out = ({ resp = [] }) => {
+  const [response, setResponse] = useState(resp);
 
-  const sendRequest = async () => await axios.get("localhost:8080/out");
+  const handleClick = async () => {
+    const response = await fetch("http://localhost:8080/control");
+    const myJson = await response.json();
+    setResponse(await myJson);
+  };
 
   useEffect(() => {
-    setResponse(sendRequest);
-  }, [response]);
+    const sendRequest = async () => {
+      const response = await fetch("http://localhost:8080/control");
+      const myJson = await response.json();
+      setResponse(await myJson);
+    };
+    sendRequest();
+  }, []);
 
   return (
     <>
-      <button onClick={sendRequest}>↺</button>
+      <button onClick={handleClick}>↺</button>
       {response.map(line => (
         <p>{line}</p>
       ))}
