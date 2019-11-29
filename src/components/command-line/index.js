@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Out } from "../out";
 export const CommandLine = () => {
   const [value, setValue] = useState("");
-  const [response, setResponse] = useState([]);
+  const [response, _] = useState([]);
   const sendRequest = async () => {
     console.log(value);
     const request = await fetch("http://localhost:8080/control", {
@@ -12,7 +12,7 @@ export const CommandLine = () => {
       },
       body: value
     });
-    setResponse(await request.json());
+    console.log(await request.json());
   };
   const handleChange = event => setValue(event.target.value);
   return (
